@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">ChallengeChapter4</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="masukkan_password">Masukkan Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="masukkan_username">Masukkan Username/Email</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="masukkan_email">Masukkan Email</string>
+    <string name="home">Home</string>
+    <string name="masukkan_judul">Masukkan Judul</string>
+    <string name="input_data">Input Data</string>
+    <string name="input">Input</string>
+    <string name="masukkan_catatan">Masukkan Catatan</string>
+    <string name="hapus">Hapus</string>
+    <string name="hapus_data">Hapus Data</string>
+    <string name="cancel">Cancel</string>
+    <string name="input_username">Masukkan Username</string>
+    <string name="edit_data">Edit Data</string>
+    <string name="update">Update</string>
+</resources>
