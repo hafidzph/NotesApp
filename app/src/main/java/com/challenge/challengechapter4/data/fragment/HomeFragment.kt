@@ -53,8 +53,15 @@ class HomeFragment : Fragment() {
         adapter = NoteAdapter(listOf(), requireContext())
         binding.rvNote.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvNote.adapter = adapter
-        noteVM.getAllNotes(getUserId).observe(viewLifecycleOwner){
-            adapter.setNotes(it)
+        noteVM.getAllNotes(getUserId).observe(viewLifecycleOwner){notes ->
+            if (notes.isEmpty()) {
+                binding.rvNote.visibility = View.GONE
+                binding.emptyBox.visibility = View.VISIBLE
+            } else {
+                binding.rvNote.visibility = View.VISIBLE
+                binding.emptyBox.visibility = View.GONE
+                adapter.setNotes(notes)
+            }
         }
         binding.btnLogout.setOnClickListener {
             userVM.clear()

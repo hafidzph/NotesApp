@@ -67,6 +67,7 @@ class RegisterFragment : Fragment() {
                             Toast.makeText(requireContext(), "Username atau email sudah terdaftar", Toast.LENGTH_LONG).show()
                         } else {
                             userVM.insert(Users(username = username, email = email, password = password))
+                            Toast.makeText(requireContext(), "Akun berhasil didaftarkan", Toast.LENGTH_LONG).show()
                             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                         }
                     }
