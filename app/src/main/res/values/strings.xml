@@ -18,4 +18,9 @@
     <string name="input_username">Masukkan Username</string>
     <string name="edit_data">Edit Data</string>
     <string name="update">Update</string>
+    <string name="belum_punya_akun">Belum punya akun?</string>
+    <string name="daftar_disini"><u>Daftar disini</u></string>
+    <string name="sudah_punya_akun">Sudah punya akun?</string>
+    <string name="login_disini"><u>Login disini</u></string>
+    <string name="konfirmasi_password">Konfirmasi Password</string>
 </resources>

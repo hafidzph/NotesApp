@@ -41,6 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            app:passwordToggleEnabled="true"
             app:layout_constraintTop_toBottomOf="@+id/tilUsername"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -58,9 +59,40 @@
             android:layout_height="50dp"
             android:text="@string/sign_in"
             android:layout_marginTop="20dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/blue_10acfc"
             app:layout_constraintTop_toBottomOf="@+id/tilPass"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/btnLogin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/belum_punya_akun"
+            app:layout_constraintEnd_toStartOf="@+id/daftar"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/daftar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/link_blue"
+            android:text="@string/daftar_disini"
+            app:layout_constraintStart_toEndOf="@+id/tv1"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

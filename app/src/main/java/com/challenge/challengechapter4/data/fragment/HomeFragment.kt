@@ -19,12 +19,12 @@ import com.challenge.challengechapter4.data.ui.viewmodel.factory.UserViewModelFa
 import com.challenge.challengechapter4.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
-    lateinit var binding: FragmentHomeBinding
-    lateinit var userVM: UserViewModel
-    lateinit var prefs: UserPreferences
-    lateinit var adapter: NoteAdapter
-    lateinit var noteVM: NoteViewModel
-    var getUserId: Int = 0
+    private lateinit var binding: FragmentHomeBinding
+    private lateinit var userVM: UserViewModel
+    private lateinit var prefs: UserPreferences
+    private lateinit var adapter: NoteAdapter
+    private lateinit var noteVM: NoteViewModel
+    private var getUserId: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +63,6 @@ class HomeFragment : Fragment() {
 
         binding.btnPlus.setOnClickListener {
             val createDialogFragment = DialogFragmentCreate.newInstance()
-
             createDialogFragment.show(requireActivity().supportFragmentManager, "DialogFragmentCreate")
         }
     }

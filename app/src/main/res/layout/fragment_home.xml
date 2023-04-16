@@ -17,21 +17,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hello, Username"
+            android:textColor="@color/grey_text"
             android:textSize="16sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="7dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnLogout"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:text="Logout"
-            android:textSize="10sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -39,7 +29,7 @@
             android:text="@string/home"
             android:textStyle="bold"
             android:textSize="22sp"
-            android:textColor="@color/black"
+            android:textColor="@color/grey_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -68,7 +58,16 @@
             android:layout_height="40dp"
             android:background="@drawable/plus"
             android:layout_margin="30dp"
-            android:layout_gravity="bottom|end"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_gravity="bottom|end" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLogout"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:backgroundTint="@color/blue_10acfc"
+        android:textColor="@color/white"
+        android:text="Logout"
+        android:textSize="11sp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"/>
 </FrameLayout>

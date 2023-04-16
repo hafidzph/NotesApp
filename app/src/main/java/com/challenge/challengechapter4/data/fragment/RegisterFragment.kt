@@ -38,22 +38,37 @@ class RegisterFragment : Fragment() {
         val viewMF = UserViewModelFactory(dataSource, app, prefs)
         userVM = ViewModelProvider(this, viewMF)[UserViewModel::class.java]
 
+        binding.login.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
+
         binding.btnRegis.setOnClickListener {
             val username = binding.etUsername.text.toString()
             val email = binding.etEmail.text.toString()
             val password = binding.etPass.text.toString()
             val confirmPassword = binding.etPassConf.text.toString()
 
-            if (password != confirmPassword) {
-                Toast.makeText(requireContext(), "Password tidak sesuai", Toast.LENGTH_LONG).show()
-            } else {
+            if(password.isEmpty() || confirmPassword.isEmpty() || email.isEmpty() || username.isEmpty()){
+                binding.tilUsername.error = if (username.isEmpty()) "Username tidak boleh kosong" else null
+                binding.tilEmail.error = if (email.isEmpty()) "Email tidak boleh kosong" else null
+                binding.tilPass.error = if (password.isEmpty()) "Password tidak boleh kosong" else null
+                binding.tilPassConf.error = if (confirmPassword.isEmpty()) "Konfirmasi Password tidak boleh kosong" else null
+            }else {
+                binding.tilUsername.error = null
+                binding.tilEmail.error = null
+                binding.tilPass.error = null
                 lifecycleScope.launch {
                     val isExist = userVM.checkIfUserExists(username, email)
-                    if (isExist) {
-                        Toast.makeText(requireContext(), "Username atau email sudah terdaftar", Toast.LENGTH_LONG).show()
-                    } else {
-                        userVM.insert(Users(username = username, email = email, password = password))
-                        findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                    if(password != confirmPassword){
+                        binding.tilPassConf.error = "Password tidak sesuai"
+                    }else{
+                        binding.tilPassConf.error = null
+                        if (isExist) {
+                            Toast.makeText(requireContext(), "Username atau email sudah terdaftar", Toast.LENGTH_LONG).show()
+                        } else {
+                            userVM.insert(Users(username = username, email = email, password = password))
+                            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                        }
                     }
                 }
             }

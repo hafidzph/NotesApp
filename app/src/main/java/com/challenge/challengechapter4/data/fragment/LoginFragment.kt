@@ -63,9 +63,13 @@ class LoginFragment : Fragment() {
                     userVM.login()
                     findNavController().navigate(R.id.action_loginFragment_to_fragmentHome)
                 } else {
-                    Toast.makeText(requireContext(), "Akun anda belum terdaftar", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Username/Email atau Password yang anda masukkan tidak valid", Toast.LENGTH_LONG).show()
                 }
             }
+        }
+
+        binding.daftar.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
 }
