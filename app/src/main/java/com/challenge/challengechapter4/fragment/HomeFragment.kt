@@ -1,9 +1,10 @@
-package com.challenge.challengechapter4.data.fragment
+package com.challenge.challengechapter4.fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -21,7 +22,6 @@ import com.challenge.challengechapter4.databinding.FragmentHomeBinding
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var userVM: UserViewModel
-    private lateinit var prefs: UserPreferences
     private lateinit var adapter: NoteAdapter
     private lateinit var noteVM: NoteViewModel
     private var getUserId: Int = 0
@@ -31,13 +31,11 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val app = requireNotNull(this.activity).application
-        val dataSource = AppDatabase.getInstance(app).userDao()
-        prefs = UserPreferences(requireContext())
-        val viewMF = UserViewModelFactory(dataSource, app, prefs)
+        val viewMF = UserViewModelFactory(AppDatabase.getInstance(requireNotNull(this.activity).application).userDao(),
+            requireNotNull(this.activity).application, UserPreferences(requireContext()))
         userVM = ViewModelProvider(this, viewMF)[UserViewModel::class.java]
-        val noteDS = AppDatabase.getInstance(app).noteDao()
-        val noteMF = NoteViewModelFactory(noteDS, app)
+        val noteMF = NoteViewModelFactory(AppDatabase.getInstance(requireNotNull(this.activity).application).noteDao(),
+            requireNotNull(this.activity).application)
         noteVM = ViewModelProvider(this, noteMF)[NoteViewModel::class.java]
         return binding.root
     }
@@ -49,11 +47,12 @@ class HomeFragment : Fragment() {
         getUserId = sharedPref.getInt("userId", 0)
         val getUsername = sharedPref.getString("username", "")
         binding.showUsername.text = "Hello, $getUsername"
+        (activity as AppCompatActivity).supportActionBar?.show()
 
         adapter = NoteAdapter(listOf(), requireContext())
         binding.rvNote.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvNote.adapter = adapter
-        noteVM.getAllNotes(getUserId).observe(viewLifecycleOwner){notes ->
+        noteVM.getAllNotes(getUserId).observe(viewLifecycleOwner){ notes ->
             if (notes.isEmpty()) {
                 binding.rvNote.visibility = View.GONE
                 binding.emptyBox.visibility = View.VISIBLE

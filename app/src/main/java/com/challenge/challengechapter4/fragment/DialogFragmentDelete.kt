@@ -1,8 +1,6 @@
-package com.challenge.challengechapter4.data.fragment
+package com.challenge.challengechapter4.fragment
 
-import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,17 +14,18 @@ import com.challenge.challengechapter4.data.local.data.Notes
 import com.challenge.challengechapter4.data.local.database.AppDatabase
 import com.challenge.challengechapter4.data.ui.viewmodel.NoteViewModel
 import com.challenge.challengechapter4.data.ui.viewmodel.factory.NoteViewModelFactory
-import com.challenge.challengechapter4.databinding.FragmentDialogUpdateBinding
+import com.challenge.challengechapter4.databinding.FragmentDialogCreateBinding
+import com.challenge.challengechapter4.databinding.FragmentDialogDeleteBinding
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class DialogFragmentUpdate : DialogFragment() {
-    lateinit var binding: FragmentDialogUpdateBinding
+class DialogFragmentDelete : DialogFragment() {
     lateinit var noteVm: NoteViewModel
+    lateinit var binding: FragmentDialogDeleteBinding
 
     companion object {
-        fun newInstance(noteId: Int): DialogFragmentUpdate {
-            val fragment = DialogFragmentUpdate()
+        fun newInstance(noteId: Int): DialogFragmentDelete {
+            val fragment = DialogFragmentDelete()
             val args = Bundle()
             args.putInt("noteId", noteId)
             fragment.arguments = args
@@ -38,7 +37,7 @@ class DialogFragmentUpdate : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDialogUpdateBinding.inflate(inflater, container, false)
+        binding = FragmentDialogDeleteBinding.inflate(inflater, container, false)
         val app = requireNotNull(this.activity).application
         val dataSource = AppDatabase.getInstance(app).noteDao()
         val viewMF = NoteViewModelFactory(dataSource, app)
@@ -48,30 +47,23 @@ class DialogFragmentUpdate : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        val getUserId = sharedPref.getInt("userId", 0)
-        binding.btnUpdate.setOnClickListener {
+        val noteId = arguments?.getInt("noteId")
+        binding.btnDelete.setOnClickListener {
             lifecycleScope.async {
-                val title = binding.etTitle.text.toString()
-                val note = binding.etNote.text.toString()
-                val noteId = arguments?.getInt("noteId")
-                if(title.isEmpty() && noteId != null){
-                    noteVm.updateNote(noteId, note)
-                    Toast.makeText(requireContext(), "Notes content berhasil diupdate", Toast.LENGTH_LONG).show()
-                }else if (note.isEmpty() && noteId != null){
-                    noteVm.updateTitle(noteId, title)
-                    Toast.makeText(requireContext(), "Title notes berhasil diupdate", Toast.LENGTH_LONG).show()
-
-                }else if(note.isNotEmpty() && title.isNotEmpty() && noteId != null){
-                    noteVm.updateAll(noteId, title, note)
-                    Toast.makeText(requireContext(), "Notes berhasil diupdate", Toast.LENGTH_LONG).show()
-
+                if(noteId != null){
+                    noteVm.delete(noteId)
+                    Toast.makeText(requireContext(), "Notes berhasil dihapus", Toast.LENGTH_LONG).show()
                 }else{
-                    Toast.makeText(requireContext(), "Notes gagal untuk diupdate", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Notes gagal dihapus", Toast.LENGTH_LONG).show()
                 }
                 dismiss()
                 findNavController().navigateUp()
             }
+        }
+
+        binding.btnCancel.setOnClickListener {
+            dismiss()
+            findNavController().navigateUp()
         }
     }
 }

@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.challenge.challengechapter4.data.fragment.DialogFragmentDelete
-import com.challenge.challengechapter4.data.fragment.DialogFragmentUpdate
+import com.challenge.challengechapter4.fragment.DialogFragmentDelete
+import com.challenge.challengechapter4.fragment.DialogFragmentUpdate
 import com.challenge.challengechapter4.data.local.data.Notes
 import com.challenge.challengechapter4.data.ui.viewmodel.NoteViewModel
 import com.challenge.challengechapter4.databinding.NoteItemBinding

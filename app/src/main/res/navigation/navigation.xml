@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/splashScreen">
 
     <fragment
         android:id="@+id/fragmentHome"
-        android:name="com.challenge.challengechapter4.data.fragment.HomeFragment"
+        android:name="com.challenge.challengechapter4.fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.challenge.challengechapter4.data.fragment.LoginFragment"
+        android:name="com.challenge.challengechapter4.fragment.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -28,11 +28,23 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.challenge.challengechapter4.data.fragment.RegisterFragment"
+        android:name="com.challenge.challengechapter4.fragment.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashScreen"
+        android:name="com.challenge.challengechapter4.fragment.SplashScreen"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splashScreen_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_splashScreen_to_fragmentHome"
+            app:destination="@id/fragmentHome" />
     </fragment>
 </navigation>

@@ -1,4 +1,4 @@
-package com.challenge.challengechapter4.data.fragment
+package com.challenge.challengechapter4.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -23,19 +24,17 @@ import kotlinx.coroutines.launch
 
 
 class LoginFragment : Fragment() {
-    lateinit var binding : FragmentLoginBinding
-    lateinit var prefs : UserPreferences
-    lateinit var userVM : UserViewModel
+    private lateinit var binding : FragmentLoginBinding
+    private lateinit var userVM : UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-        val app = requireNotNull(this.activity).application
-        val dataSource = AppDatabase.getInstance(app).userDao()
-        prefs = UserPreferences(requireContext())
-        val viewMF = UserViewModelFactory(dataSource, app, prefs)
+        val viewMF = UserViewModelFactory(AppDatabase.getInstance(requireNotNull(this.activity).application).userDao(),
+            requireNotNull(this.activity).application,
+            UserPreferences(requireContext()))
         userVM = ViewModelProvider(this, viewMF)[UserViewModel::class.java]
         return binding.root
     }
@@ -43,23 +42,19 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        lifecycleScope.launch {
-            if(userVM.isUserAlreadyLoggedIn()){
-                findNavController().navigate(R.id.action_loginFragment_to_fragmentHome)
-            }
-        }
+        (activity as AppCompatActivity).supportActionBar?.hide()
 
         binding.btnLogin.setOnClickListener {
             lifecycleScope.launch {
                 val usernameOrEmail = binding.etUsernameOrEmail.text.toString()
                 val password = binding.etPass.text.toString()
                 val user = userVM.getUserByUsernameAndPassword(usernameOrEmail, usernameOrEmail, password)
-                sharedPref.edit().apply{
-                    putInt("userId", user!!.id)
-                    putString("username", user.username)
-                    apply()
-                }
                 if(user != null) {
+                    sharedPref.edit().apply{
+                        putInt("userId", user.id)
+                        putString("username", user.username)
+                        apply()
+                    }
                     userVM.login()
                     findNavController().navigate(R.id.action_loginFragment_to_fragmentHome)
                 } else {

@@ -1,4 +1,4 @@
-package com.challenge.challengechapter4.data.fragment
+package com.challenge.challengechapter4.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -21,22 +22,20 @@ import kotlinx.coroutines.launch
 class RegisterFragment : Fragment() {
     lateinit var binding : FragmentRegisterBinding
     lateinit var userVM : UserViewModel
-    lateinit var prefs : UserPreferences
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        val viewMF = UserViewModelFactory(AppDatabase.getInstance(requireNotNull(this.activity).application).userDao(),
+            requireNotNull(this.activity).application, UserPreferences(requireContext()))
+        userVM = ViewModelProvider(this, viewMF)[UserViewModel::class.java]
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val app = requireNotNull(this.activity).application
-        val dataSource = AppDatabase.getInstance(app).userDao()
-        prefs = UserPreferences(requireContext())
-        val viewMF = UserViewModelFactory(dataSource, app, prefs)
-        userVM = ViewModelProvider(this, viewMF)[UserViewModel::class.java]
+        (activity as AppCompatActivity).supportActionBar?.hide()
 
         binding.login.setOnClickListener {
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
