@@ -24,16 +24,6 @@ class DialogFragmentUpdate : DialogFragment() {
     lateinit var binding: FragmentDialogUpdateBinding
     lateinit var noteVm: NoteViewModel
 
-    companion object {
-        fun newInstance(noteId: Int): DialogFragmentUpdate {
-            val fragment = DialogFragmentUpdate()
-            val args = Bundle()
-            args.putInt("noteId", noteId)
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

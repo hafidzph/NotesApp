@@ -49,7 +49,7 @@ class HomeFragment : Fragment() {
         binding.showUsername.text = "Hello, $getUsername"
         (activity as AppCompatActivity).supportActionBar?.show()
 
-        adapter = NoteAdapter(listOf(), requireContext())
+        adapter = NoteAdapter(listOf(), findNavController())
         binding.rvNote.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvNote.adapter = adapter
         noteVM.getAllNotes(getUserId).observe(viewLifecycleOwner){ notes ->
@@ -68,8 +68,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.btnPlus.setOnClickListener {
-            val createDialogFragment = DialogFragmentCreate.newInstance()
-            createDialogFragment.show(requireActivity().supportFragmentManager, "DialogFragmentCreate")
+            findNavController().navigate(R.id.action_fragmentHome_to_dialogFragmentCreate)
         }
     }
 

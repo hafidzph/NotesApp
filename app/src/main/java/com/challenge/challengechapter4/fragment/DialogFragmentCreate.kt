@@ -21,11 +21,6 @@ import kotlinx.coroutines.launch
 class DialogFragmentCreate : DialogFragment() {
     lateinit var noteVm: NoteViewModel
     lateinit var binding: FragmentDialogCreateBinding
-    companion object {
-        fun newInstance(): DialogFragmentCreate {
-            return DialogFragmentCreate()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,9 +28,8 @@ class DialogFragmentCreate : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDialogCreateBinding.inflate(inflater, container, false)
-        val app = requireNotNull(this.activity).application
-        val dataSource = AppDatabase.getInstance(app).noteDao()
-        val viewMF = NoteViewModelFactory(dataSource, app)
+        val viewMF = NoteViewModelFactory(AppDatabase.getInstance(requireNotNull(this.activity).application).noteDao(),
+            requireNotNull(this.activity).application)
         noteVm = ViewModelProvider(this, viewMF)[NoteViewModel::class.java]
         return binding.root
     }
@@ -49,10 +43,19 @@ class DialogFragmentCreate : DialogFragment() {
             lifecycleScope.async {
                 val title = binding.etTitle.text.toString()
                 val note = binding.etNote.text.toString()
-                noteVm.insert(Notes(title = title, note = note, userId = getUserId))
-                dismiss()
-                findNavController().navigateUp()
-                Toast.makeText(requireContext(), "Notes berhasil ditambahkan", Toast.LENGTH_LONG).show()
+                if(title.isEmpty() && note.isEmpty()){
+                    binding.tilNoteInput.error = "Note harus diisi!"
+                    binding.tilTitleInput.error = "Judul harus diisi!"
+                }else {
+                    noteVm.insert(Notes(title = title, note = note, userId = getUserId))
+                    dismiss()
+                    findNavController().navigateUp()
+                    Toast.makeText(
+                        requireContext(),
+                        "Notes berhasil ditambahkan",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
     }

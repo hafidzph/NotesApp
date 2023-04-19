@@ -20,18 +20,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class DialogFragmentDelete : DialogFragment() {
-    lateinit var noteVm: NoteViewModel
-    lateinit var binding: FragmentDialogDeleteBinding
-
-    companion object {
-        fun newInstance(noteId: Int): DialogFragmentDelete {
-            val fragment = DialogFragmentDelete()
-            val args = Bundle()
-            args.putInt("noteId", noteId)
-            fragment.arguments = args
-            return fragment
-        }
-    }
+    private lateinit var noteVm: NoteViewModel
+    private lateinit var binding: FragmentDialogDeleteBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
