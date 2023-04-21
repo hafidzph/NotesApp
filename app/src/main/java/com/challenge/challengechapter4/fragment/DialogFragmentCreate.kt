@@ -40,13 +40,10 @@ class DialogFragmentCreate : DialogFragment() {
         val getUserId = sharedPref.getInt("userId", 0)
 
         binding.btnInput.setOnClickListener {
-            lifecycleScope.async {
+            lifecycleScope.launch {
                 val title = binding.etTitle.text.toString()
                 val note = binding.etNote.text.toString()
-                if(title.isEmpty() && note.isEmpty()){
-                    binding.tilNoteInput.error = "Note harus diisi!"
-                    binding.tilTitleInput.error = "Judul harus diisi!"
-                }else {
+                if(title.isNotEmpty() && note.isNotEmpty()){
                     noteVm.insert(Notes(title = title, note = note, userId = getUserId))
                     dismiss()
                     findNavController().navigateUp()
@@ -55,6 +52,9 @@ class DialogFragmentCreate : DialogFragment() {
                         "Notes berhasil ditambahkan",
                         Toast.LENGTH_LONG
                     ).show()
+                }else {
+                    binding.tilTitleInput.error = if(title.isEmpty()) "Judul tidak boleh kosong" else null
+                    binding.tilNoteInput.error = if(note.isEmpty()) "Note tidak boleh" else null
                 }
             }
         }

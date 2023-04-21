@@ -41,7 +41,7 @@ class DialogFragmentUpdate : DialogFragment() {
         val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
         val getUserId = sharedPref.getInt("userId", 0)
         binding.btnUpdate.setOnClickListener {
-            lifecycleScope.async {
+            lifecycleScope.launch {
                 val title = binding.etTitle.text.toString()
                 val note = binding.etNote.text.toString()
                 val noteId = arguments?.getInt("noteId")

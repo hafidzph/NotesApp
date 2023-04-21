@@ -39,7 +39,7 @@ class DialogFragmentDelete : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val noteId = arguments?.getInt("noteId")
         binding.btnDelete.setOnClickListener {
-            lifecycleScope.async {
+            lifecycleScope.launch {
                 if(noteId != null){
                     noteVm.delete(noteId)
                     Toast.makeText(requireContext(), "Notes berhasil dihapus", Toast.LENGTH_LONG).show()
